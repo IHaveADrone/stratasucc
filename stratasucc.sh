@@ -16,7 +16,7 @@ function GetChipID() {
   #get ID path (the one with the dash)
   IDp=$(ls | grep 23-)
   
-  if [$IDp];
+  if [! -z "$IDp"];
   then
     cd $IDp
   else

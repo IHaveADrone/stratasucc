@@ -18,7 +18,7 @@ function GetChipID() {
 }
 
 function ReadEE() {
-  GetChipID()
+  GetChipID
 
   cp eeprom ~/strat-chip/read.bin
   cd ~/strat-chip

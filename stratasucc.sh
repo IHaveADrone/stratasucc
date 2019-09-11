@@ -48,7 +48,7 @@ function WriteEE() {
   stratatools eeprom_encode -t prodigy -e $ID write.txt write.bin
 
   cd /sys/bus/w1/devices/w1_bus_master1/
-  cd $ID
+  cd $IDp
 
   sudo cp ~/stratasucc/write.bin eeprom
   echo 'done!'

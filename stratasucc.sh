@@ -11,33 +11,46 @@ usage() {
 
 function GetChipID() {
   #cd in to that pesky serial number folder
-  cd /sys/bus/w1/devices/w1_bus_master1/ && cd $(ls | grep 23-)
+  cd /sys/bus/w1/devices/w1_bus_master1/
+  
+  #get ID path (the one with the dash)
+  IDp=$(ls | grep 23-)
+  
+  if [$IDp];
+  then
+    cd $IDp
+  else
+    echo 'Stratasys EEPROM device not found!'
+    exit
+  fi
+  
   #Get chip ID (non dashed one)
   ID=$(xxd -p id)
-  echo 'found chip: '$ID
+  echo 'Found chip: '$ID
 }
 
 function ReadEE() {
   GetChipID
 
-  cp eeprom ~/strat-chip/read.bin
-  cd ~/strat-chip
+  cp eeprom ~/stratasucc/read.bin
+  cd ~/stratasucc
   stratatools eeprom_decode -t prodigy -e $ID read.bin read.txt
 
   echo 'done!'
+  cat read.txt
 }
 
 function WriteEE() {
-  GetChipID()
+  GetChipID
 
-  cd ~/strat-chip
+  cd ~/stratasucc
 
   stratatools eeprom_encode -t prodigy -e $ID write.txt write.bin
 
   cd /sys/bus/w1/devices/w1_bus_master1/
   cd $ID
 
-  sudo cp ~/strat-chip/write.bin eeprom
+  sudo cp ~/stratasucc/write.bin eeprom
   echo 'done!'
 }
 

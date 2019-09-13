@@ -37,7 +37,10 @@ function ReadEE() {
   stratatools eeprom_decode -t prodigy -e $ID read.bin read.txt
 
   echo 'done!'
-  cat read.txt
+  
+  #display relevant info
+  #cat read.txt
+  grep -e number -e material read.txt
 }
 
 function WriteEE() {
